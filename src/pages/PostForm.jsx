@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+// Mendefinisikan URL API dari environment variable
+const API_URL = import.meta.env.VITE_API_URL;
+
 const PostForm = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -18,7 +21,7 @@ const PostForm = () => {
   useEffect(() => {
     if (postId) {
       setLoading(true);
-      fetch(`http://localhost:3000/posts/${postId}`)
+      fetch(`${API_URL}/posts/${postId}`) // Menggunakan API_URL
         .then(res => {
           if (!res.ok) throw new Error("Failed to fetch post");
           return res.json();
@@ -57,8 +60,8 @@ const PostForm = () => {
     }
 
     const url = postId
-      ? `http://localhost:3000/posts/${postId}`
-      : "http://localhost:3000/posts";
+      ? `${API_URL}/posts/${postId}` // Menggunakan API_URL
+      : `${API_URL}/posts`; // Menggunakan API_URL
     const method = postId ? "PUT" : "POST";
 
     fetch(url, {
@@ -79,7 +82,8 @@ const PostForm = () => {
         setLoading(false);
       });
   };
-
+  
+  // ... (sisa kode JSX tidak perlu diubah)
   if (loading && postId) return <p>Loading post data...</p>;
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
 
@@ -110,7 +114,6 @@ const PostForm = () => {
           </div>
         ))}
 
-        {/* Audio URL input */}
         <div style={{ marginBottom: 16 }}>
           <label htmlFor="audioUrl" style={{ display: "block", marginBottom: 8, fontWeight: "bold" }}>
             Audio URL (YouTube / Spotify):
@@ -120,7 +123,7 @@ const PostForm = () => {
             id="audioUrl"
             name="audioUrl"
             value={form.audioUrl}
-            onChange={(e) => setFormData({ ...formData, audioUrl: e.target.value })}
+            onChange={handleChange}
             placeholder="Audio URL (Spotify/YouTube)"
             style={{
               width: "100%",

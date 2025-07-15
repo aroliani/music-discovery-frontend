@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Mendefinisikan URL API dari environment variable
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Login = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
@@ -13,7 +16,7 @@ const Login = ({ onLoginSuccess }) => {
     e.preventDefault();
     setError(null);
 
-    fetch("http://localhost:3000/auth/login", {
+    fetch(`${API_URL}/auth/login`, { // Menggunakan API_URL
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -24,7 +27,7 @@ const Login = ({ onLoginSuccess }) => {
         if (data.error) {
           setError(data.error);
         } else {
-          fetch("http://localhost:3000/auth/me", {
+          fetch(`${API_URL}/auth/me`, { // Menggunakan API_URL
             credentials: "include",
           })
             .then((res) => res.json())
@@ -42,7 +45,7 @@ const Login = ({ onLoginSuccess }) => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3000/auth/google";
+    window.location.href = `${API_URL}/auth/google`; // Menggunakan API_URL
   };
 
   return (
@@ -71,7 +74,7 @@ const Login = ({ onLoginSuccess }) => {
         {error && <p className="error">{error}</p>}
 
         <button type="submit">Login</button>
-        <button onClick={handleGoogleLogin}>Login with Google</button>
+        <button type="button" onClick={handleGoogleLogin}>Login with Google</button>
         <p className="switch">
           Don't have an account?{" "}
           <span onClick={() => navigate("/signup")}>Sign up</span>

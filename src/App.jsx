@@ -12,13 +12,17 @@ import Login from './pages/Login.jsx';
 
 import './App.css';
 
+// FIX: Mendefinisikan URL API dari environment variable
+const API_URL = import.meta.env.VITE_API_URL;
+
 const NavigationTabs = ({ user, onLogout }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const activeKey = location.pathname.startsWith('/posts') ? '/posts' : '/';
 
   const handleLogout = () => {
-    fetch("http://localhost:3000/auth/logout", {
+    // FIX: Menggunakan API_URL
+    fetch(`${API_URL}/auth/logout`, {
       credentials: "include"
     }).then(() => {
       onLogout();
@@ -84,7 +88,8 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/auth/me", {
+    // FIX: Menggunakan API_URL
+    fetch(`${API_URL}/auth/me`, {
       credentials: "include"
     })
       .then(res => res.json())

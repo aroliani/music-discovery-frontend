@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Mendefinisikan URL API dari environment variable
+const API_URL = import.meta.env.VITE_API_URL;
+
 const SignUp = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -11,7 +14,7 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/auth/signup", {
+    fetch(`${API_URL}/auth/signup`, { // Menggunakan API_URL
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
