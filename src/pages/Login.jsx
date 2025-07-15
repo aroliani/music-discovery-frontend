@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// Mendefinisikan URL API dari environment variable
+// FIX: Mendefinisikan URL API dari environment variable
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = ({ onLoginSuccess }) => {
@@ -16,7 +16,8 @@ const Login = ({ onLoginSuccess }) => {
     e.preventDefault();
     setError(null);
 
-    fetch(`${API_URL}/auth/login`, { // Menggunakan API_URL
+    // FIX: Menggunakan API_URL
+    fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -27,7 +28,8 @@ const Login = ({ onLoginSuccess }) => {
         if (data.error) {
           setError(data.error);
         } else {
-          fetch(`${API_URL}/auth/me`, { // Menggunakan API_URL
+          // FIX: Menggunakan API_URL
+          fetch(`${API_URL}/auth/me`, {
             credentials: "include",
           })
             .then((res) => res.json())
@@ -45,7 +47,8 @@ const Login = ({ onLoginSuccess }) => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${API_URL}/auth/google`; // Menggunakan API_URL
+    // FIX: Menggunakan API_URL
+    window.location.href = `${API_URL}/auth/google`;
   };
 
   return (

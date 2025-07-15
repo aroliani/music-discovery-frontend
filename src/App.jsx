@@ -88,6 +88,11 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!API_URL) {
+      console.error("VITE_API_URL is not defined. Make sure to set it in your .env file or Netlify environment variables.");
+      setLoading(false);
+      return;
+    }
     // FIX: Menggunakan API_URL
     fetch(`${API_URL}/auth/me`, {
       credentials: "include"

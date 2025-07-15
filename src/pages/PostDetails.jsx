@@ -12,7 +12,7 @@ import {
   PlayCircleOutlined
 } from '@ant-design/icons';
 
-// Mendefinisikan URL API dari environment variable
+// FIX: Mendefinisikan URL API dari environment variable
 const API_URL = import.meta.env.VITE_API_URL;
 
 const PostDetails = () => {
@@ -23,11 +23,13 @@ const PostDetails = () => {
   const [newComment, setNewComment] = useState({ name: "", email: "", body: "" });
 
   useEffect(() => {
-    fetch(`${API_URL}/posts/${postId}`) // Menggunakan API_URL
+    // FIX: Menggunakan API_URL
+    fetch(`${API_URL}/posts/${postId}`)
       .then((res) => res.json())
       .then((data) => setPost(data));
 
-    fetch(`${API_URL}/posts/${postId}/comments`) // Menggunakan API_URL
+    // FIX: Menggunakan API_URL
+    fetch(`${API_URL}/posts/${postId}/comments`)
       .then((res) => res.json())
       .then((data) => setComments(Array.isArray(data) ? data : []));
   }, [postId]);
@@ -36,7 +38,8 @@ const PostDetails = () => {
 
   const handleDeletePost = () => {
     if (window.confirm("Are you sure you want to delete this post?")) {
-      fetch(`${API_URL}/posts/${postId}`, { // Menggunakan API_URL
+      // FIX: Menggunakan API_URL
+      fetch(`${API_URL}/posts/${postId}`, {
         method: 'DELETE',
       })
         .then(() => {
@@ -46,10 +49,11 @@ const PostDetails = () => {
         .catch(error => console.error("Error deleting post:", error));
     }
   };
-
+  
   const handleDeleteComment = (commentId) => {
     if (window.confirm("Delete this comment?")) {
-      fetch(`${API_URL}/comments/${commentId}`, { // Menggunakan API_URL
+      // FIX: Menggunakan API_URL
+      fetch(`${API_URL}/comments/${commentId}`, {
         method: 'DELETE',
       })
         .then(() => {
@@ -64,12 +68,13 @@ const PostDetails = () => {
     if (!newComment.name.trim() || !newComment.body.trim()) return;
 
     try {
-      const res = await fetch(`${API_URL}/posts/${postId}/comments`, { // Menggunakan API_URL
+      // FIX: Menggunakan API_URL
+      const res = await fetch(`${API_URL}/posts/${postId}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComment)
       });
-      // ... sisa logika
+
       const data = await res.json();
       if (data.comment) {
         setComments((prev) => [...prev, data.comment]);
@@ -81,13 +86,13 @@ const PostDetails = () => {
       console.error("Failed to submit comment:", err);
     }
   };
-  
-  // ... (sisa kode JSX tidak perlu diubah)
+
   const handleCreateNewPost = () => navigate('/posts/new');
   const handleEditPost = () => navigate(`/posts/edit/${postId}`);
 
   return (
     <div className="card post-card" style={{ padding: 24 }}>
+      {/* ... Sisa kode JSX tidak perlu diubah ... */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <button
           onClick={() => navigate('/posts')}
